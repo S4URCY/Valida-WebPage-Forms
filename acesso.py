@@ -6,7 +6,9 @@ user = "username"
 pwd = "password"
 
 # Inicializacao do driver Firefox
-# tODOS TEM QUE ESTAR COM PERMISSÃO DE ADMIN
+# TODOS O  ARQUIVOS TEM QUE ESTAR COM PERMISSÃO DE ADMIN
+# Necessario baixar o geckodriver: https://selenium-python.readthedocs.io/installation.html
+
 exe_path = "/home/andre/Projetos/py_login/geckodriver"
 log_local = "/home/andre/Projetos/py_login/geckodriver.log"
 driver = webdriver.Firefox(executable_path=exe_path, log_path=log_local)
