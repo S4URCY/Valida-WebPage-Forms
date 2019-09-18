@@ -1,44 +1,29 @@
-import mechanize
-import cookielib
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
-#cria um navegador, um browser de codigo
-br = mechanize.Browser()
-url = 'https://ead.uft.edu.br/'
-user = 'login'
-senha = 'senha'
-cj = cookielib.LWPCookieJar()
-br.set_cookiejar(cj)
+# Login/senha
+user = "username"
+pwd = "password"
 
+# Inicializacao do driver Firefox
+# tODOS TEM QUE ESTAR COM PERMISSÃO DE ADMIN
+exe_path = "/home/andre/Projetos/py_login/geckodriver"
+log_local = "/home/andre/Projetos/py_login/geckodriver.log"
+driver = webdriver.Firefox(executable_path=exe_path, log_path=log_local)
 
-br.set_handle_equiv(True)
-br.set_handle_gzip(False)
-br.set_handle_redirect(True)
-br.set_handle_referer(True)
-br.set_handle_robots(False)
-br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
+# Abrindo a pagina definida
+driver.get("https://ead.uft.edu.br/")
 
-# Do ponto de vista do servidor, o navegador agora o Firefox.
-br.addheaders = [('User-agent', 'Mozilla/5.0 (X11;\
- U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615\
-Fedora/3.0.1-1.fc9 Firefox/3.0.1')]      
+# Entrada do nome do usuário / email
+elmnt = driver.find_element_by_id("username")
+elmnt.send_keys(user)
 
-#Navega acessando a URL usando o método HTTP GET
-br.open(url)
+# Entrada da senha
+elmnt = driver.find_element_by_id("password")
+elmnt.send_keys(pwd)
 
-# Se existirem formulários, você pode selecionar o primeiro (#0), por exemplo...
-br.select_form(nr=0)
+# Pressionando o botão de login
+elmnt.send_keys(Keys.RETURN)
 
-# Para mostrar os formularios e ver os campos a serem preenchidos,
-# use um for sobre o br.forms()
-for f in br.forms():
-   print f
-
-# Preencher o formulário com os dados
-br.form['username'] = user
-br.form['password'] = senha
-
-# Enviar o formulário usando o método HTTP POST
-br.submit()        
-
-#busca  HTML retornado:
-html = br.response().read()
+# Fechando o driver
+#driver.close()
